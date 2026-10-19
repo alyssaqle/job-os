@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.pytest_cache/
+.DS_Store
+
+# my data stays on this machine
+data/*
+!data/.gitkeep
+sources/*
+!sources/.gitkeep
+
+# real profile files are private; only the blank templates are committed
+profile/*
+!profile/*.template.md
+!profile/*.template.json
+.claude/skills/config.yaml

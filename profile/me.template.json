@@ -1,0 +1,16 @@
+{
+  "name": "",
+  "headline": "",
+  "location": "",
+  "linkedin_url": "",
+  "school": "",
+  "grad_year": "",
+  "past_employers": [],
+  "programs": [],
+  "hometown": "",
+  "high_school": "",
+  "target_roles": [],
+  "avoid_roles": [],
+  "connection_note_limit": 200,
+  "weights": { "pastEmployer": 4, "program": 3, "university": 2, "hometown": 1 }
+}

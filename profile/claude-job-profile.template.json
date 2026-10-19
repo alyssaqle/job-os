@@ -1,0 +1,56 @@
+{
+  "_readme": "Copy this file to config/claude-job-profile.json and/or ~/.claude-job-profile.json, then fill in your details. This file is gitignored once renamed. Fields marked sensitive (workAuthorization, salary) are only used with your confirmation before applying.",
+  "firstName": "",
+  "lastName": "",
+  "email": "you@example.com",
+  "phone": "+1-555-0100",
+  "location": "Your City, ST, Country",
+  "urls": {
+    "linkedin": "https://linkedin.com/in/your-handle",
+    "github": "https://github.com/your-handle",
+    "portfolio": ""
+  },
+  "resumePath": "sources/resume.pdf",
+  "workHistory": [
+    {
+      "company": "Acme Corp",
+      "title": "Software Engineer",
+      "location": "City, ST",
+      "start": "MM/YYYY",
+      "end": "Present",
+      "highlights": [
+        "Quantified achievement 1",
+        "Quantified achievement 2"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "State University",
+      "degree": "B.S. in <Field>",
+      "location": "City, ST",
+      "start": "MM/YYYY",
+      "end": "MM/YYYY"
+    }
+  ],
+  "skills": [
+    "Skill 1",
+    "Skill 2"
+  ],
+  "workAuthorization": {
+    "status": "<e.g. Citizen / Permanent Resident / Visa>",
+    "requiresSponsorship": false,
+    "details": "Generic positioning statement; leave neutral if N/A"
+  },
+  "preferences": {
+    "targetTitles": [
+      "Software Engineer"
+    ],
+    "remote": "open",
+    "salaryFloor": null,
+    "exclusions": [],
+    "locations": [],
+    "timeRange": "past week"
+  },
+  "notes": "Sensitive fields require your confirmation before being used in an application."
+}

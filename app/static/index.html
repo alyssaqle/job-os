@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job OS</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">Job OS</div>
+    <nav class="tabs" id="mainTabs">
+      <button data-view="board" class="active">Board</button>
+      <button data-view="people">People</button>
+      <button data-view="profile">Me</button>
+    </nav>
+    <button class="btn primary" id="addRoleBtn" title="Shortcut: n">+ Add role</button>
+  </header>
+
+  <main>
+    <!-- BOARD -->
+    <section id="view-board" class="view">
+      <div id="setupNudge" class="nudge hidden"></div>
+
+      <div class="nextup" id="nextup">
+        <div class="nextup-label">Next up</div>
+        <div class="nextup-body" id="nextupBody">Loading…</div>
+      </div>
+
+      <div class="board-toolbar">
+        <div class="chips" id="filters">
+          <button data-filter="active" class="chip active">Active</button>
+          <button data-filter="inbox" class="chip">New roles</button>
+          <button data-filter="todo" class="chip">Not applied</button>
+          <button data-filter="applied" class="chip">Applied</button>
+          <button data-filter="gap" class="chip">No one to message</button>
+          <button data-filter="all" class="chip">All</button>
+        </div>
+        <button class="btn" id="pullLatest" title="Newest US entry-level PM / project / AI analyst roles">⬇ Pull newest roles</button>
+        <span id="abStats" class="muted small"></span>
+        <input id="search" class="input" placeholder="Search  ( / )">
+      </div>
+
+      <div class="table-wrap">
+        <table class="jobs">
+          <thead>
+            <tr><th></th><th>Company</th><th>Role</th><th>Status</th><th>Fit</th><th>People</th><th>Reached</th><th>Follow up</th></tr>
+          </thead>
+          <tbody id="jobRows"></tbody>
+        </table>
+        <div id="emptyBoard" class="empty hidden">
+          No roles yet. Hit <b>+ Add role</b> and paste a job posting. That's the whole first step.
+        </div>
+      </div>
+    </section>
+
+    <!-- PEOPLE -->
+    <section id="view-people" class="view hidden">
+      <div class="card">
+        <h2>Bring in your network</h2>
+        <p class="muted">LinkedIn → Settings → Data privacy → <b>Get a copy of your data</b> → tick <b>Connections</b>. You'll get <code>Connections.csv</code> in ~10 minutes. Re-import anytime; people who changed jobs get updated.</p>
+        <div class="row gap">
+          <label class="btn">Import Connections.csv <input type="file" accept=".csv" data-import="connections" hidden></label>
+          <label class="btn">Import referral sheet (CSV) <input type="file" accept=".csv" data-import="referral_sheet" hidden></label>
+          <span id="importMsg" class="muted"></span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row between"><h2>Everyone (<span id="peopleCount">0</span>)</h2><input id="peopleSearch" class="input" placeholder="Search name, company, title"></div>
+        <table class="jobs"><thead><tr><th>Name</th><th>Company</th><th>Title</th><th>Source</th><th></th></tr></thead><tbody id="peopleRows"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ME -->
+    <section id="view-profile" class="view hidden">
+      <div class="card">
+        <h2>About me <span class="muted small">(used to rank who's most likely to reply)</span></h2>
+        <form id="meForm" class="grid2"></form>
+        <div class="row gap"><button class="btn primary" id="saveMe">Save</button><span id="meMsg" class="muted"></span></div>
+      </div>
+      <div class="card">
+        <h2>Find new roles</h2>
+        <p><a class="btn primary" href="/api/general-resume.pdf">⬇ My general resume (PM / product builder / AI analyst)</a>
+          <span class="muted small">for quick applies when you don't want to tailor</span></p>
+        <p class="muted">LinkedIn job searches for your target roles, newest first (from SnipeDin's URL builder).</p>
+        <div id="roleSearches" class="links"></div>
+      </div>
+      <div class="card">
+        <h2>My files</h2>
+        <p class="muted">Claude reads these for every resume and message. They're saved in <code>profile/</code> on your machine.</p>
+        <div class="row gap wrap" id="profileFileTabs"></div>
+        <p class="muted small" id="profileFileDesc"></p>
+        <textarea id="profileText" class="editor" spellcheck="true"></textarea>
+        <div class="row gap"><button class="btn primary" id="saveProfileFile">Save</button><span id="profileMsg" class="muted"></span></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JOB DRAWER -->
+  <aside id="drawer" class="drawer hidden" aria-label="Role details">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-company" id="dCompany"></div>
+        <div class="drawer-role" id="dRole"></div>
+        <div class="row gap small" id="dLinks"></div>
+      </div>
+      <div class="row gap">
+        <select id="dStatus" class="input"></select>
+        <button class="icon-btn" id="closeDrawer" title="Close (Esc)">✕</button>
+      </div>
+    </div>
+    <div id="dAuth" style="padding:0 20px;background:var(--surface)"></div>
+    <nav class="tabs sub" id="drawerTabs">
+      <button data-tab="people">People &amp; messages</button>
+      <button data-tab="resume">Resume</button>
+      <button data-tab="overview">Job &amp; fit</button>
+      <button data-tab="log">Log</button>
+    </nav>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+  <div id="scrim" class="scrim hidden"></div>
+
+  <!-- ADD ROLE -->
+  <dialog id="addDialog">
+    <form method="dialog" id="addForm">
+      <h2>Add a role</h2>
+      <div class="tabs sub" id="addModeTabs">
+        <button type="button" data-mode="paste" class="active">Paste posting</button>
+        <button type="button" data-mode="manual">Type it</button>
+      </div>
+      <div data-mode-panel="paste">
+        <input class="input" name="url" placeholder="Job URL (optional)">
+        <textarea class="input" name="text" rows="10" placeholder="Paste the whole job posting. Claude pulls out company, role, location."></textarea>
+      </div>
+      <div data-mode-panel="manual" class="hidden">
+        <input class="input" name="company" placeholder="Company">
+        <input class="input" name="role" placeholder="Role">
+        <input class="input" name="murl" placeholder="Job URL">
+        <input class="input" name="location" placeholder="Location">
+        <textarea class="input" name="jd" rows="6" placeholder="Job description (paste it, helps tailoring)"></textarea>
+      </div>
+      <label class="row gap small"><input type="checkbox" name="high"> High priority</label>
+      <div class="row gap end">
+        <span id="addMsg" class="muted"></span>
+        <button class="btn" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn primary" id="addSubmit" value="ok">Add</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+# Job Search Skills — Configuration
+# =================================
+# Fill this in with your details, or let any skill guide you through setup on first run.
+# Copy this file to config.yaml before using the skills.
+#
+# Only fill in the sections relevant to the skills you plan to use:
+#   - job-analyzer:    user, resume, achievements, preferences
+#   - job-crawler:     user, resume, skills, preferences
+#   - job-form-filler: user, resume, preferences, eeo
+#   - network-finder:  user, network
+
+user:
+  name: ""                    # Full name (e.g., "Jane Smith")
+  email: ""                   # Primary email for applications
+  phone: ""                   # Phone number
+  location: ""                # Current city/state (e.g., "San Francisco, CA")
+  pronouns: ""                # e.g., "She/her", "He/him", "They/them"
+  current_company: ""         # Most recent employer (e.g., "Google — left Jan 2026")
+  linkedin_url: ""            # Full LinkedIn profile URL
+  github_url: ""              # Full GitHub profile URL
+  portfolio_url: ""           # Portfolio or personal site (optional)
+
+resume:
+  # Google Drive document ID containing your resume(s).
+  # This is the part after /d/ in the URL:
+  #   https://docs.google.com/document/d/THIS_PART_HERE/edit
+  google_doc_id: ""
+
+  # Names of your resume variants, if you have multiple.
+  # The first one is treated as the default.
+  # e.g., ["Backend Engineer", "Fullstack Engineer", "ML Engineer"]
+  variants: []
+
+  # Brief profile summary — 2-3 sentences describing your background.
+  # Used by the crawler to quickly assess role fit without fetching the full resume.
+  # e.g., "Senior backend engineer with 7 years experience, most recently at Stripe
+  #        on the Payments team. Deep expertise in distributed systems, Go, and PostgreSQL."
+  profile_summary: ""
+
+achievements:
+  # Google Drive document ID for a detailed achievement history (optional).
+  # If you keep a brag doc, work log, or achievement tracker, put its ID here.
+  # The job-analyzer uses this to suggest specific resume bullet swaps.
+  google_doc_id: ""
+
+skills:
+  # Your transferable skill domains — used by job-crawler to match against roles.
+  # Be specific. Include technologies, problem domains, and methodologies.
+  # e.g.:
+  #   - "Backend engineering (Go, Python, Java)"
+  #   - "Distributed systems and microservices"
+  #   - "Payment/financial systems"
+  #   - "CI/CD, build systems, developer tooling"
+  #   - "Database design (PostgreSQL, DynamoDB)"
+  domains: []
+
+preferences:
+  # Experience level: "junior", "mid", "senior", "staff", "principal"
+  level: "senior"
+  years_experience: 0
+
+  # Location constraints
+  us_only: true               # Set to false if open to international roles
+
+  # Keywords to exclude from job results (case-insensitive).
+  # e.g., ["security clearance", "defense", "government"]
+  exclude_keywords: []
+
+  # Your primary specialty — used for ranking when multiple similar roles exist.
+  # e.g., "iOS", "backend", "fullstack", "ML", "frontend", "DevOps"
+  primary_specialty: ""
+
+  # Secondary specialties (optional) — acceptable but ranked lower than primary.
+  # e.g., if primary is "iOS", secondary might be ["Android", "cross-platform"]
+  secondary_specialties: []
+
+  # Work authorization
+  authorized_to_work: true
+  requires_sponsorship: false
+
+  # Start date availability
+  availability: "Immediately"  # or "2 weeks notice", etc.
+
+network:
+  # URL to a Google Sheet (or other spreadsheet) tracking referral contacts.
+  # Leave blank if you don't have one.
+  referral_sheet_url: ""
+
+  # Describe the sheet's column structure so the skill knows how to read it.
+  # e.g., "Column A = Name, Column B = Company, Column C = Notes, Column D = Date"
+  referral_sheet_structure: ""
+
+  # Your LinkedIn profile URL — used for 1st-connection searches.
+  linkedin_profile_url: ""
+
+eeo:
+  # Equal Employment Opportunity fields (all optional).
+  # These are used by job-form-filler for voluntary demographic questions.
+  # Leave blank or use "decline" to skip.
+  gender: ""                  # e.g., "Male", "Female", "Non-binary", "decline"
+  race_ethnicity: ""          # e.g., "Asian", "White", "Hispanic", "decline"
+  veteran_status: ""          # e.g., "Not a protected veteran", "decline"
+  disability_status: ""       # e.g., "decline"

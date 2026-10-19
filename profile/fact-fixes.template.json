@@ -1,0 +1,9 @@
+{
+  "_note": "Copy to fact-fixes.json (gitignored). Regex pairs applied to every resume: corrections you never want to regress.",
+  "replace": [
+    [
+      "\\b10K users\\b",
+      "12K users"
+    ]
+  ]
+}
